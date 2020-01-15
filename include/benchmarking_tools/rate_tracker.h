@@ -10,6 +10,8 @@
 #include <list>
 #include <std_msgs/Header.h>
 
+
+
 #define RATE_TRACKING_INFO_NAMED(ws, name)\
     static std::map<std::string, benchmarking_tools::RateTracker> dup_map;\
     if (dup_map.find(name) == dup_map.end()){\
@@ -17,6 +19,11 @@
         dup_map.insert(std::pair<std::string, benchmarking_tools::RateTracker>(name, tracker));\
     }\
     dup_map[name].addTimeAndRun();\
+
+// Pass in message level to not duplicate w/ if else functions
+// build flag to disable
+
+#pragma push_macro("ROSCONSOLE_DEFINE_LOCATION(cond, level, name)")
 
 // Redefined so there might exists multiple rate logger names
 #define ROSCONSOLE_DEFINE_LOCATION(cond, level, name) \
@@ -124,4 +131,5 @@ namespace benchmarking_tools
     };
 }
 
+#pragma pop_macro("ROSCONSOLE_DEFINE_LOCATION(cond, level, name)")
 #endif
