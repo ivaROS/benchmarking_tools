@@ -6,35 +6,43 @@
 #include <boost/algorithm/string.hpp>
 #include <chrono>
 #include <map>
-
 #include <list>
 #include <std_msgs/Header.h>
 
-class Rate
+namespace benchmarking_tools
 {
-    private:
-    public:
-        typedef ros::Time S; 
-        Rate()
-        {
+    class Rate
+    {
+        private:
+        public:
+            typedef ros::Time S; 
+            Rate()
+            {
 
-        }
+            }
 
-        ~Rate(){
+            ~Rate(){
 
-        }
+            }
 
-        S addTime()
-        {
-            return ros::Time::now();
-        }
+            S addValue()
+            {
+                return ros::Time::now();
+            }
 
-        void getString(const std::list<S> vals, ::ros::console::Level level)
-        {
+            std::string getString(const std::list<S> &vals)
+            {
+                if (vals.size() < 2)
+                    return "call rate 0";
+
+                ros::Duration dt = vals.back() - vals.front();
+                double rate = ((double)vals.size() - 1) / dt.toSec();
+                std::string return_str = "call rate " + std::to_string(rate);
+                return return_str;
+            }
             
-        }
-        
-};
+    };
+}
 
 
 #endif
