@@ -28,16 +28,23 @@
 #define RATE_DEBUG_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Debug, ws)
 #define RATE_INFO_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Info, ws)
 #define RATE_WARN_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Warn, ws)
-#define RATE_DEBUG_STREAM_THROTTLED(name, ws) RATE_LOG_THROTTLED(name, ::ros::console::Level::Debug, ws)
-#define RATE_INFO_STREAM_THROTTLED(name, ws) RATE_LOG_THROTTLED(name, ::ros::console::Level::Info, ws)
-#define RATE_WARN_STREAM_THROTTLED(name, ws) RATE_LOG_THROTTLED(name, ::ros::console::Level::Warn, ws)
+#define RATE_DEBUG_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws)
+#define RATE_INFO_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws)
+#define RATE_WARN_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws)
 
 #define DELAY_DEBUG_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Debug, ws, header)
 #define DELAY_INFO_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Info, ws, header)
 #define DELAY_WARN_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Warn, ws, header)
-#define DELAY_DEBUG_STREAM_THROTTLED(name, ws, header) DELAY_LOG_THROTTLED(name, ::ros::console::Level::Debug, ws, header)
-#define DELAY_INFO_STREAM_THROTTLED(name, ws, header) DELAY_LOG_THROTTLED(name, ::ros::console::Level::Info, ws, header)
-#define DELAY_WARN_STREAM_THROTTLED(name, ws, header) DELAY_LOG_THROTTLED(name, ::ros::console::Level::Warn, ws, header)
+#define DELAY_DEBUG_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws, header)
+#define DELAY_INFO_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws, header)
+#define DELAY_WARN_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws, header)
+
+#define DURATION_DEBUG_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Debug, ws)
+#define DURATION_INFO_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Info, ws)
+#define DURATION_WARN_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Warn, ws)
+#define DURATION_DEBUG_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws)
+#define DURATION_INFO_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws)
+#define DURATION_WARN_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws)
 
 
 

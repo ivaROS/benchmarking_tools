@@ -15,19 +15,19 @@ namespace benchmarking_tools
 {
     class TimingDuration
     {
-        // public:
+        public:
+            typedef float S;
         private:
             ros::WallTime start_time;
             float elapsed_time;
             benchmarking_tools::Tracker<benchmarking_tools::TimingDuration> * _parentobj;
+            bool _throttled = false;
         public:
-            typedef float S;
-            TimingDuration(benchmarking_tools::Tracker<benchmarking_tools::TimingDuration> * parentobj)
+            TimingDuration(benchmarking_tools::Tracker<benchmarking_tools::TimingDuration> * parentobj, bool throttled = false)
             {
-                ROS_INFO_STREAM("Constructor started");
                 start_time = ros::WallTime::now();
-                ROS_INFO_STREAM("Constructor finished");
                 _parentobj = parentobj;
+                _throttled = throttled;
             }
 
             S addValue()
@@ -37,13 +37,15 @@ namespace benchmarking_tools
 
             ~TimingDuration()
             {
-                ROS_INFO_STREAM("destructor1 reached");
                 this->elapsed_time = (ros::WallTime::now() - this->start_time).toSec() * 1e3;
-                ROS_INFO_STREAM("destructor2 reached");
                 ROS_INFO_STREAM(this->addValue());
                 _parentobj->addValue(this->addValue());
-                ROS_INFO_STREAM("destructor3 reached");
-                _parentobj->getString(*this);
+
+                if (!_throttled){
+                    _parentobj->getString(*this);
+                } else {
+                    _parentobj->getStringThrottled(*this);
+                }
             }
 
             static std::string getString(const std::list<S> & vals)

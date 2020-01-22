@@ -32,25 +32,16 @@ namespace benchmarking_tools{
 
         void addValue(const typename T:: S val)
         {
-            ROS_INFO_STREAM(_name << "addValue");
-            ROS_INFO_STREAM(_vals.size());
-            if (_vals.size() >= 50)
+            if (_vals.size() >= max_size)
             {
-                ROS_INFO_STREAM(" pop front");
                 _vals.pop_front();
-                ROS_INFO_STREAM(" pop end");
             }
 
-            ROS_INFO_STREAM(_name << "addValue before push back");
-
             _vals.push_back(val);
-
-            ROS_INFO_STREAM(_name << "addValue end");
         }
 
         void getString(T& interface_object)
         {
-            ROS_INFO_STREAM(_name << "getString");
             std::string value = interface_object.getString(_vals);
             ROS_LOG_STREAM(_level, std::string(ROSCONSOLE_NAME_PREFIX) + "." + _name, _name << ", " << value << "," << _vals.size() << " samples");
         }
