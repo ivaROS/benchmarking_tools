@@ -57,7 +57,7 @@
     benchmarking_tools::TimingDuration duration(&dup_map_duration.find(name)->second);\
 
 
-#define DURATION_LOG_THROTTLED(name, level, ws, period)\
+#define DURATION_LOG_THROTTLED(name, period, level, ws)\
     static std::map<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>> dup_map_duration;\
     if (dup_map_duration.find(name) == dup_map_duration.end()){\
         benchmarking_tools::Tracker<benchmarking_tools::TimingDuration> tracker(name, ws, level, period);\
