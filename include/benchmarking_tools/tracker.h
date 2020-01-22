@@ -21,7 +21,9 @@ namespace benchmarking_tools{
         std::list<typename T:: S> _vals;
         float _period;
     public:
-        Tracker(){}
+        // NOTE: If this default constructor is required by compiler error,
+        // it indicates that the tracker is not being inserted into the map.
+        // Tracker(){}
         
         Tracker(std::string name, size_t window_size, ::ros::console::Level level, float period):
         _name(name), max_size(window_size), _level(level), _period(period) {}
