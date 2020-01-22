@@ -38,7 +38,6 @@ namespace benchmarking_tools
             ~TimingDuration()
             {
                 this->elapsed_time = (ros::WallTime::now() - this->start_time).toSec() * 1e3;
-                ROS_INFO_STREAM(this->addValue());
                 _parentobj->addValue(this->addValue());
 
                 if (!_throttled){
@@ -51,10 +50,10 @@ namespace benchmarking_tools
             static std::string getString(const std::list<S> & vals)
             {
                 if (vals.size() < 2)
-                    return "ave duration 0";
+                    return "ave_duration 0";
 
                 double ave_delay = std::accumulate(std::begin(vals), std::end(vals), 0) / ((double)vals.size());
-                std::string return_str = "ave duration " + std::to_string(ave_delay);
+                std::string return_str = "ave_duration " + std::to_string(ave_delay);
                 return return_str;
             }
     };

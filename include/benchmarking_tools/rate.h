@@ -33,11 +33,11 @@ namespace benchmarking_tools
             std::string getString(const std::list<S> &vals)
             {
                 if (vals.size() < 2)
-                    return "call rate 0";
+                    return "ave_callrate 0";
 
                 ros::Duration dt = vals.back() - vals.front();
                 double rate = ((double)vals.size() - 1) / dt.toSec();
-                std::string return_str = "call rate " + std::to_string(rate);
+                std::string return_str = "ave_callrate " + std::to_string(rate);
                 return return_str;
             }
             

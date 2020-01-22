@@ -34,10 +34,10 @@ namespace benchmarking_tools
             std::string getString(const std::list<S> &vals)
             {
                 if (vals.size() < 2)
-                    return "ave delay 0";
+                    return "ave_delay 0";
 
                 double ave_delay = (double) (std::accumulate(std::begin(vals), std::end(vals), ros::Duration(0))).toSec() / ((double)vals.size());
-                std::string return_str = "ave delay " + std::to_string(ave_delay);
+                std::string return_str = "ave_delay " + std::to_string(ave_delay);
                 return return_str;
             }
             

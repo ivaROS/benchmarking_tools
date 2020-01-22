@@ -52,7 +52,7 @@
     static std::map<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>> dup_map_duration;\
     if (dup_map_duration.find(name) == dup_map_duration.end()){\
         benchmarking_tools::Tracker<benchmarking_tools::TimingDuration> tracker(name, ws, level, 0);\
-        dup_map_duration.insert(std::pair<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>>(name, tracker));
+        dup_map_duration.insert(std::pair<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>>(name, tracker));\
     }\
     benchmarking_tools::TimingDuration duration(&dup_map_duration.find(name)->second);\
 
@@ -61,7 +61,7 @@
     static std::map<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>> dup_map_duration;\
     if (dup_map_duration.find(name) == dup_map_duration.end()){\
         benchmarking_tools::Tracker<benchmarking_tools::TimingDuration> tracker(name, ws, level, period);\
-        dup_map_duration.insert(std::pair<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>>(name, tracker));
+        dup_map_duration.insert(std::pair<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>>(name, tracker));\
     }\
     benchmarking_tools::TimingDuration duration(&dup_map_duration.find(name)->second, true);\
 
