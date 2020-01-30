@@ -119,18 +119,18 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(tester_lib src/example_rate.cpp)
-add_dependencies(tester_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_compile_options(tester_lib PUBLIC -std=c++11)
-target_link_libraries(tester_lib 
+add_library(benchmarking_lib src/example_rate.cpp)
+add_dependencies(benchmarking_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_compile_options(benchmarking_lib PUBLIC -std=c++11)
+target_link_libraries(benchmarking_lib 
   ${catkin_LIBRARIES}
 )
 
-add_executable(tester_node src/example_timing.cpp)
-add_dependencies(tester_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_compile_options(tester_node PUBLIC -std=c++11)
-target_link_libraries(tester_node
-  tester_lib
+add_executable(example_node src/example_timing.cpp)
+add_dependencies(example_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_compile_options(example_node PUBLIC -std=c++11)
+target_link_libraries(example_node
+  benchmarking_lib
   ${catkin_LIBRARIES}
 )
 
@@ -139,7 +139,7 @@ add_executable(rate_node src/example_rate.cpp)
 add_dependencies(rate_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_compile_options(rate_node PUBLIC -std=c++11)
 target_link_libraries(rate_node
-  tester_lib
+  benchmarking_lib
   ${catkin_LIBRARIES}
 )
 

@@ -1,6 +1,6 @@
+
 #include "ros/ros.h"
-#include "benchmarking_tools/timing.h"
-#include "benchmarking_tools/rate_tracker.h"
+#include "benchmarking_tools/benchmarking_tools.h"
 #include "std_msgs/String.h"
 
 
@@ -8,11 +8,16 @@ int main(int argc, char ** argv)
 {
     ros::init(argc, argv, "rate_tester");
     ros::NodeHandle n;
-    ros::Rate loop_rate(2);
-    // benchmarking_tools::RateTracker example(50, "Example_Rate");
+    std_msgs::Header last_msgs;
+    last_msgs.stamp = ros::Time::now();
     while (ros::ok()){
-        RATE_TRACKING_INFO_NAMED(50, "example_rate");
-        ros::Duration(0.05).sleep();
+        RATE_INFO_STREAM("rate_node", 50);
+        DELAY_INFO_STREAM("delay_log", 50, last_msgs);
+        last_msgs.stamp = ros::Time::now();
+        {
+            DURATION_INFO_STREAM("duration", 50);
+            ros::Duration(0.005).sleep();
+        }
         ros::spinOnce();
     }
     return 0;
