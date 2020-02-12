@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import roslaunch
 import rospy
 import rospkg
@@ -85,7 +86,7 @@ def get_rosbag_duration(bag_file_dir):
     bag.close()
     return duration
 
-def run_test(rosbag_launch_dir = 'launch/rosbag', tests = ["egocircle_scale_exp_gap"], logging_location = "log_data", test_host_pkg = 'nav_scripts'):
+def run_test(rosbag_launch_dir = 'launch/rosbag', tests = ["scalability"], second_tests = ['egocircle'], logging_location = "log_data", test_host_pkg = 'nav_scripts'):
 
     # Getting log export location
     pkg_dir = rospkg.RosPack().get_path(test_host_pkg)
@@ -93,47 +94,53 @@ def run_test(rosbag_launch_dir = 'launch/rosbag', tests = ["egocircle_scale_exp_
     if not os.path.exists(data_location):
         os.makedirs(data_location)
 
-    
+    egocircle_launchfile = os.path.join(pkg_dir, 'launch', second_tests[0])
     for testtype in tests:
-        print("--------Starting {} test--------".format(testtype))
+        for ego_launch_file in os.listdir(egocircle_launchfile):
+            ego_path = os.path.join(egocircle_launchfile, ego_launch_file)
+            print("--------Starting {} test--------".format(testtype))
 
-        controller_launchfile_dir = os.path.join(pkg_dir, 'launch', testtype)
-        # rosbag_file_dir = os.path.join(pkg_dir, 'launch', "rosbag")
-        rosbag_file_dir = os.path.join(pkg_dir, rosbag_launch_dir)
-        list_of_log_directorys = list()
-
-        for launch_file_name in os.listdir(controller_launchfile_dir):
-            for rosbag_file_name in os.listdir(rosbag_file_dir):
-                # Launch the planner
-                launch_full_path = os.path.join(controller_launchfile_dir, launch_file_name)
-                # play the bag file
-                bag_launch_path = os.path.join(rosbag_file_dir, rosbag_file_name)
-                rosbag_name = get_rosbag_name_fromlaunch(bag_launch_path)
-                rosbag_time = get_rosbag_duration(rosbag_name)
-                
-                # Get ROS logging location
-                uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-                list_of_log_directorys.append(uuid)
-                roslaunch.configure_logging(uuid)
-                launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_full_path, bag_launch_path])
-
-                # Run the experiment
-                launch.start()
-                rospy.loginfo("started")
-                rospy.sleep(math.ceil(rosbag_time) + 10)
-                launch.shutdown()
-                rospy.sleep(1)
-
-            # Finish up
-            print("All {} run for {} ended, moving files".format(testtype, launch_file_name))
-            timestamp = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').replace('.', '-').replace('/', '-')
-            print(timestamp)
-
-            outputpath = os.path.join(data_location, testtype, timestamp, rosbag_file_name)
-            print(list_of_log_directorys)
-            if not os.path.exists(outputpath):
-                os.makedirs(outputpath)
-            for x in list_of_log_directorys:
-                file_name = str(x)
-                move(os.path.join("/home/alex/.ros/log", x), outputpath)
+            controller_launchfile_dir = os.path.join(pkg_dir, 'launch', testtype)
+            # rosbag_file_dir = os.path.join(pkg_dir, 'launch', "rosbag")
+            rosbag_file_dir = os.path.join(pkg_dir, rosbag_launch_dir)
             list_of_log_directorys = list()
+
+            for rosbag_file_name in os.listdir(rosbag_file_dir):
+                for launch_file_name in os.listdir(controller_launchfile_dir):
+                    # Launch the planner
+                    launch_full_path = os.path.join(controller_launchfile_dir, launch_file_name)
+                    # play the bag file
+                    bag_launch_path = os.path.join(rosbag_file_dir, rosbag_file_name)
+                    rosbag_name = get_rosbag_name_fromlaunch(bag_launch_path)
+                    rosbag_time = get_rosbag_duration(rosbag_name)
+                    
+                    # Get ROS logging location
+                    uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+                    list_of_log_directorys.append(uuid)
+                    roslaunch.configure_logging(uuid)
+                    launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_full_path, ego_path, bag_launch_path])
+                    # rospy.loginfo(launch_full_path)
+                    # rospy.loginfo(bag_launch_path)
+                    # rospy.loginfo(ego_path)
+
+                    # Run the experiment
+                    launch.start()
+                    rospy.loginfo("started")
+                    rospy.sleep(math.ceil(rosbag_time) + 10)
+                    rospy.sleep(1)
+
+                    launch.shutdown()
+                    rospy.sleep(1)
+
+                    # Finish up
+                    # print("All {} run for {} ended, moving files".format(testtype, launch_file_name))
+                    # timestamp = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').replace('.', '-').replace('/', '-')
+                    # print(timestamp)
+
+                    outputpath = os.path.join(data_location, rosbag_file_name, ego_launch_file.split(".")[0] + "," + rosbag_file_name.split(".")[0] + "," + launch_file_name.split(".")[0])
+                    if not os.path.exists(outputpath):
+                        os.makedirs(outputpath)
+                    for x in list_of_log_directorys:
+                        file_name = str(x)
+                        move(os.path.join("/home/alex/.ros/log", x), outputpath)
+                    list_of_log_directorys = list()
