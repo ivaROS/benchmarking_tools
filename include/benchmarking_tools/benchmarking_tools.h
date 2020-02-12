@@ -4,6 +4,8 @@
 #pragma push_macro("ROSCONSOLE_DEFINE_LOCATION(cond, level, name)")
 
 // Redefined so there might exists multiple rate logger names
+#undef ROSCONSOLE_DEFINE_LOCATION
+
 #define ROSCONSOLE_DEFINE_LOCATION(cond, level, name) \
     ROSCONSOLE_AUTOINIT; \
     static std::map<std::string, ::ros::console::LogLocation> dup_map;\

@@ -37,7 +37,7 @@ namespace benchmarking_tools
 
             ~TimingDuration()
             {
-                this->elapsed_time = (ros::WallTime::now() - this->start_time).toSec() * 1e3;
+                this->elapsed_time = (ros::WallTime::now() - this->start_time).toNSec() / 1e3;
                 _parentobj->addValue(this->addValue());
 
                 if (!_throttled){
