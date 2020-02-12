@@ -137,7 +137,7 @@ def run_test(rosbag_launch_dir = 'launch/rosbag', tests = ["scalability"], secon
                     # timestamp = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').replace('.', '-').replace('/', '-')
                     # print(timestamp)
 
-                    outputpath = os.path.join(data_location, rosbag_file_name, ego_launch_file.split(".")[0] + "," + rosbag_file_name.split(".")[0] + "," + launch_file_name.split(".")[0])
+                    outputpath = os.path.join(data_location, rosbag_file_name, rosbag_file_name.split(".")[0] + "," + ego_launch_file.split(".")[0] + "," + launch_file_name.split(".")[0])
                     if not os.path.exists(outputpath):
                         os.makedirs(outputpath)
                     for x in list_of_log_directorys:

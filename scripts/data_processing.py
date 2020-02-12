@@ -113,6 +113,37 @@ if __name__ == "__main__":
     dump_file = "data.p"
     terminal_dict = dict()
     all_log_location = get_location()
-    for log in all_log_location:
-        terminal_dict.update({log.split("/")[-1] : get_file(log_path = log)})
+    for idx, log in enumerate(all_log_location):
+        this_dict = get_file(log_path = log)
+        val = log.split("/")[-1].split(",")
+        for attr in val:
+            attr_iden = attr.split("_")[0]
+            if attr_iden == "ego":
+                radius = float(attr.split("_")[1])
+                resolu = float(attr.split("_")[2])
+                this_dict.update(
+                    {
+                        "egoradius" : radius,
+                        "egoresolu" : resolu
+                    }
+                )
+
+            if attr_iden == "seed":
+                seed = float(attr.split("_")[1])
+                this_dict.update(
+                    {
+                        "seed" : seed
+                    }
+                )
+
+
+            if attr_iden == "teb":
+                radius = attr.split("_")[1]
+                this_dict.update(
+                    {
+                        "modelradius" : radius,
+                    }
+                )
+                
+        terminal_dict.update({str(idx) : this_dict})
     pickle.dump(terminal_dict, open(dump_file, 'wb'))
