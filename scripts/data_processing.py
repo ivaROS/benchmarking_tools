@@ -8,13 +8,19 @@ from shutil import move
 import re
 import pickle
 
-def get_location(tgt_pkg = "nav_scripts", data_location = "log_data", bag_file_names = ["seed_0.launch"]):
+def get_location(tgt_pkg = "nav_scripts", data_location = "log_data", optional_div = None, bag_file_names = ["seed_0.launch"]):
     pkg_dir = rospkg.RosPack().get_path(tgt_pkg)
     ret_list = list()
     for bag_file in bag_file_names:
         this_dir = os.path.join(os.path.dirname(pkg_dir), data_location, bag_file)
-        for dir_name in os.listdir(this_dir):
-            ret_list.append(os.path.join(this_dir, dir_name))
+        if optional_div is None:
+            for dir_name in os.listdir(this_dir):
+                ret_list.append(os.path.join(this_dir, dir_name))
+        else:
+            for optional_key in optional_div:
+                total_dir = os.path.join(this_dir, optional_key)
+                for dir_name in os.listdir(total_dir):
+                    ret_list.append(os.path.join(total_dir, dir_name))
     return ret_list
 
 def get_file(log_path, target_keys = set(["egocircle_node", "move_base"])):
@@ -57,16 +63,16 @@ def get_data(log_type, log_file):
         )
     
     if log_type == "move_base":
-        num_gaps = 0
-        obsCount = 0
-        calculateEquivalenceClass = 0
-        graphGen = 0
-        optimizeGraph = 0
-        num_gaps_count = 0
-        obsCount_count = 0
-        calculateEquivalenceClass_count = 0
-        graphGen_count = 0
-        optimizeGraph_count = 0
+        num_gaps = 1
+        obsCount = 1
+        calculateEquivalenceClass = 1
+        graphGen = 1
+        optimizeGraph = 1
+        num_gaps_count = 1
+        obsCount_count = 1
+        calculateEquivalenceClass_count = 1
+        graphGen_count = 1
+        optimizeGraph_count = 1
 
 
         with open(log_file, 'r') as file:
@@ -112,10 +118,11 @@ def get_data(log_type, log_file):
 if __name__ == "__main__":
     dump_file = "data.p"
     terminal_dict = dict()
-    all_log_location = get_location()
+    all_log_location = get_location(data_location = "log_data_wed", optional_div = ['scalability', 'costmapver'])
     for idx, log in enumerate(all_log_location):
         this_dict = get_file(log_path = log)
         val = log.split("/")[-1].split(",")
+        controller_type = log.split("/")[-2]
         for attr in val:
             attr_iden = attr.split("_")[0]
             if attr_iden == "ego":
@@ -137,13 +144,20 @@ if __name__ == "__main__":
                 )
 
 
-            if attr_iden == "teb":
-                radius = attr.split("_")[1]
+            if attr_iden == "0":
+                # radius = attr.split("_")[1]
                 this_dict.update(
                     {
-                        "modelradius" : radius,
+                        "modelradius" : attr,
                     }
                 )
+
+            this_dict.update(
+                {
+                    "controller_type" : controller_type
+                }
+            )
                 
         terminal_dict.update({str(idx) : this_dict})
+    # print(terminal_dict)
     pickle.dump(terminal_dict, open(dump_file, 'wb'))
