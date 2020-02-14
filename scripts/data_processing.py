@@ -73,7 +73,10 @@ def get_data(log_type, log_file):
         calculateEquivalenceClass_count = 1
         graphGen_count = 1
         optimizeGraph_count = 1
-
+        feasibility = 1
+        feasibility_count = 1
+        numteb = 1
+        numteb_count = 1
 
         with open(log_file, 'r') as file:
             content = file.readlines()
@@ -97,10 +100,19 @@ def get_data(log_type, log_file):
                 val = parsed[1][:-5]
                 num_gaps += float(val)
 
+            if parsed[0] == "newTeb":
+                numteb_count += 1
+                val = parsed[1][:-5]
+                numteb += float(val)
+
             if parsed[0] == "obsCount":
                 obsCount_count += 1
                 val = parsed[1][:-5]
                 obsCount += float(val)
+
+            if parsed[0] == "egoFeasibility" or parsed[0] == "costmapFeasibility":
+                feasibility_count += 1
+                feasibility += float(parsed[1].split(",")[0].split(" ")[-1])
 
         ret_dict.update(
             {
@@ -108,7 +120,8 @@ def get_data(log_type, log_file):
                 "graphGen" :  graphGen / graphGen_count,
                 "optimizeGraph" : optimizeGraph / optimizeGraph_count,
                 "num_gaps" : num_gaps / num_gaps_count,
-                "obsCount" : obsCount / obsCount_count
+                "obsCount" : obsCount / obsCount_count,
+                "feasibility" : feasibility / feasibility_count
             }
         )
 
@@ -118,46 +131,61 @@ def get_data(log_type, log_file):
 if __name__ == "__main__":
     dump_file = "data.p"
     terminal_dict = dict()
-    all_log_location = get_location(data_location = "log_data_wed", optional_div = ['scalability', 'costmapver'])
+    all_log_location = get_location(data_location = "log_data_fri", optional_div = ['costmap'], bag_file_names = ["seed_1.launch"])
     for idx, log in enumerate(all_log_location):
         this_dict = get_file(log_path = log)
         val = log.split("/")[-1].split(",")
         controller_type = log.split("/")[-2]
-        for attr in val:
-            attr_iden = attr.split("_")[0]
-            if attr_iden == "ego":
-                radius = float(attr.split("_")[1])
-                resolu = float(attr.split("_")[2])
-                this_dict.update(
-                    {
-                        "egoradius" : radius,
-                        "egoresolu" : resolu
-                    }
-                )
 
-            if attr_iden == "seed":
-                seed = float(attr.split("_")[1])
-                this_dict.update(
-                    {
-                        "seed" : seed
-                    }
-                )
+        print(val)
 
+        seed_attr = val[0]
+        seed = float(seed_attr.split("_")[1])
+        this_dict.update(
+            {
+                "seed" : seed
+            }
+        )
 
-            if attr_iden == "0":
-                # radius = attr.split("_")[1]
-                this_dict.update(
-                    {
-                        "modelradius" : attr,
-                    }
-                )
+        ego_attr = val[1]
+        radius = float(ego_attr.split("_")[1])
+        resolu = float(ego_attr.split("_")[2])
+        this_dict.update(
+            {
+                "egoradius" : radius,
+                "egoresolu" : resolu
+            }
+        )
 
-            this_dict.update(
-                {
-                    "controller_type" : controller_type
-                }
-            )
-                
+        model_radius = val[2]
+        this_dict.update(
+            {
+                "modelradius" : model_radius,
+            }
+        )
+
+        costmap_resoln = float(val[3].split("_")[0]) + float(val[3].split("_")[1]) / pow(10, float(len(val[3].split("_")[1])))
+
+        this_dict.update(
+            {
+                "costmap_resoln" : costmap_resoln
+            }
+        )
+
+        costmap_size = float(val[4])
+
+        this_dict.update(
+            {
+                "costmap_size" : costmap_size
+            }
+        )
+
+        this_dict.update(
+            {
+                "controller_type" : controller_type
+            }
+        )
+
         terminal_dict.update({str(idx) : this_dict})
-    # print(terminal_dict)
-    pickle.dump(terminal_dict, open(dump_file, 'wb'))
+    # print(terminal_dict['6'])
+    pickle.dump(terminal_dict, open("costmap.p", 'wb'))

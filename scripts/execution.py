@@ -95,6 +95,7 @@ def run_test(rosbag_launch_dir = 'launch/rosbag', tests = ["scalability"], secon
         os.makedirs(data_location)
 
     egocircle_launchfile = os.path.join(pkg_dir, 'launch', second_tests[0])
+    
     for testtype in tests:
         for ego_launch_file in os.listdir(egocircle_launchfile):
             ego_path = os.path.join(egocircle_launchfile, ego_launch_file)
