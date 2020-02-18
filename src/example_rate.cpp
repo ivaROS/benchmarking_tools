@@ -11,6 +11,8 @@ int main(int argc, char ** argv)
     std_msgs::Header last_msgs;
     last_msgs.stamp = ros::Time::now();
     while (ros::ok()){
+        // ROS_INFO_STREAM(ROS_PACKAGE_NAME);
+        // PLACEHOLDER;
         RATE_INFO_STREAM("rate_node", 50);
         DELAY_INFO_STREAM("delay_log", 50, last_msgs);
         last_msgs.stamp = ros::Time::now();

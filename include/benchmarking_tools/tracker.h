@@ -15,6 +15,7 @@ namespace benchmarking_tools{
     {
     private:
         std::string _name;
+        std::string _name_prefix;
         size_t max_size = 50;
         size_t num_samples = 0;
         ::ros::console::Level _level;
@@ -25,8 +26,8 @@ namespace benchmarking_tools{
         // it indicates that the tracker is not being inserted into the map.
         // Tracker(){}
         
-        Tracker(std::string name, size_t window_size, ::ros::console::Level level, float period):
-        _name(name), max_size(window_size), _level(level), _period(period) {}
+        Tracker(std::string name, size_t window_size, ::ros::console::Level level, float period, std::string name_prefix):
+        _name(name), max_size(window_size), _level(level), _period(period), _name_prefix(name_prefix) {}
 
         ~Tracker(){}
 
@@ -43,14 +44,14 @@ namespace benchmarking_tools{
         void getString(T& interface_object)
         {
             std::string value = interface_object.getString(_vals);
-            ROS_LOG_STREAM(_level, std::string(ROSCONSOLE_NAME_PREFIX) + "." + _name, _name << ", " << value << "," << _vals.size() << " samples");
+            ROS_LOG_STREAM(_level, _name_prefix + "." + _name, _name << ", " << value << "," << _vals.size() << " samples");
         }
 
 
         void getStringThrottled(T& interface_object)
         {
             std::string value = interface_object.getString(_vals);
-            ROS_LOG_STREAM_THROTTLE(_period, _level, std::string(ROSCONSOLE_NAME_PREFIX) + "." + _name, _name << ", " << value << "," << _vals.size() << " samples");
+            ROS_LOG_STREAM_THROTTLE(_period, _level, _name_prefix + "." + _name, _name << ", " << value << "," << _vals.size() << " samples");
         }
     };
 }

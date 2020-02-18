@@ -1,6 +1,18 @@
 #ifndef BENCHMARKING_H
 #define BENCHMARKING_H
 
+
+#include <ros/ros.h>
+
+// #ifdef ROS_PACKAGE_NAME
+// #define ROSCONSOLE_PACKAGE_NAME ROS_PACKAGE_NAME
+// #else
+// #define ROSCONSOLE_PACKAGE_NAME "unknown_package"
+// #endif
+
+// #define ROSCONSOLE_ROOT_LOGGER_NAME "ros"
+// #define ROSCONSOLE_NAME_PREFIX ROSCONSOLE_ROOT_LOGGER_NAME "." ROSCONSOLE_PACKAGE_NAME
+
 #pragma push_macro("ROSCONSOLE_DEFINE_LOCATION(cond, level, name)")
 
 // Redefined so there might exists multiple rate logger names
@@ -26,27 +38,28 @@
 
 #include <benchmarking_tools/macros.h>
 
+// #define PLACEHOLDER ROS_INFO_STREAM(ROSCONSOLE_NAME_PREFIX)
 
-#define RATE_DEBUG_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Debug, ws)
-#define RATE_INFO_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Info, ws)
-#define RATE_WARN_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Warn, ws)
-#define RATE_DEBUG_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws)
-#define RATE_INFO_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws)
-#define RATE_WARN_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws)
+#define RATE_DEBUG_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Debug, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define RATE_INFO_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Info, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define RATE_WARN_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Warn, w, std::string(ROSCONSOLE_NAME_PREFIX))
+#define RATE_DEBUG_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define RATE_INFO_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define RATE_WARN_STREAM_THROTTLED(name, ws, period) RATE_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws, std::string(ROSCONSOLE_NAME_PREFIX))
 
-#define DELAY_DEBUG_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Debug, ws, header)
-#define DELAY_INFO_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Info, ws, header)
-#define DELAY_WARN_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Warn, ws, header)
-#define DELAY_DEBUG_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws, header)
-#define DELAY_INFO_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws, header)
-#define DELAY_WARN_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws, header)
+#define DELAY_DEBUG_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Debug, ws, header, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DELAY_INFO_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Info, ws, header, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DELAY_WARN_STREAM(name, ws, header) DELAY_LOG(name, ::ros::console::Level::Warn, ws, header, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DELAY_DEBUG_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws, header, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DELAY_INFO_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws, header, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DELAY_WARN_STREAM_THROTTLED(name, ws, header, period) DELAY_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws, header, std::string(ROSCONSOLE_NAME_PREFIX))
 
-#define DURATION_DEBUG_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Debug, ws)
-#define DURATION_INFO_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Info, ws)
-#define DURATION_WARN_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Warn, ws)
-#define DURATION_DEBUG_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws)
-#define DURATION_INFO_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws)
-#define DURATION_WARN_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws)
+#define DURATION_DEBUG_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Debug, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DURATION_INFO_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Info, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DURATION_WARN_STREAM(name, ws) DURATION_LOG(name, ::ros::console::Level::Warn, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DURATION_DEBUG_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Debug, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DURATION_INFO_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Info, ws, std::string(ROSCONSOLE_NAME_PREFIX))
+#define DURATION_WARN_STREAM_THROTTLED(name, ws, period) DURATION_LOG_THROTTLED(name, period, ::ros::console::Level::Warn, ws, std::string(ROSCONSOLE_NAME_PREFIX))
 
 
 

@@ -104,9 +104,12 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
- LIBRARIES benchmarking_lib
- CATKIN_DEPENDS roscpp rospy std_msgs
+  LIBRARIES benchmarking_lib
+  CATKIN_DEPENDS roscpp rospy std_msgs
+  CFG_EXTRAS benchmarking_tools-extras.cmake
 )
+
+include(~/catkin_ws/src/benchmarking_tools/cmake/benchmarking_tools-extras.cmake)
 
 ###########
 ## Build ##

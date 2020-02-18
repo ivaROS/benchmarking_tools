@@ -10,7 +10,7 @@ int main(int argc, char ** argv)
     ros::Rate loop_rate(2);
 
     while (ros::ok()){
-        RATE_LOG("example_rate node_2", ros::console::Level::Info, 50);
+        RATE_LOG("example_rate node_2", ros::console::Level::Info, 50, std::string(ROSCONSOLE_NAME_PREFIX));
         ros::Duration(0.5).sleep();
         ros::spinOnce();
     }
