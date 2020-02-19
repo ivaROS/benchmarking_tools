@@ -49,7 +49,7 @@ namespace benchmarking_tools
 
             static std::string getString(const std::list<S> & vals)
             {
-                if (vals.size() < 2)
+                if (vals.size() < 1)
                     return "ave_duration 0";
 
                 double ave_delay = std::accumulate(std::begin(vals), std::end(vals), 0) / ((double)vals.size());
