@@ -120,25 +120,27 @@ def run_test(rosbag_launch_dir = 'launch/rosbag', tests = ["scalability"], secon
                     list_of_log_directorys.append(uuid)
                     roslaunch.configure_logging(uuid)
                     launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_full_path, ego_path, bag_launch_path])
-                    # rospy.loginfo(launch_full_path)
-                    # rospy.loginfo(bag_launch_path)
-                    # rospy.loginfo(ego_path)
+                    rospy.loginfo(launch_full_path)
+                    rospy.loginfo(bag_launch_path)
+                    rospy.loginfo(ego_path)
 
                     # Run the experiment
                     launch.start()
                     rospy.loginfo("started")
                     rospy.sleep(math.ceil(rosbag_time) + 10)
+                    # print([launch_full_path, ego_path, bag_launch_path])
                     rospy.sleep(1)
 
                     launch.shutdown()
                     rospy.sleep(1)
 
                     # Finish up
-                    # print("All {} run for {} ended, moving files".format(testtype, launch_file_name))
-                    # timestamp = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').replace('.', '-').replace('/', '-')
-                    # print(timestamp)
+                    print("All {} run for {} ended, moving files".format(testtype, launch_file_name))
+                    timestamp = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').replace('.', '-').replace('/', '-')
+                    print(timestamp)
 
                     outputpath = os.path.join(data_location, rosbag_file_name, testtype, rosbag_file_name.split(".")[0] + "," + ego_launch_file.split(".")[0] + "," + launch_file_name.split(".")[0])
+                    # print(outputpath)
                     if not os.path.exists(outputpath):
                         os.makedirs(outputpath)
                     for x in list_of_log_directorys:
