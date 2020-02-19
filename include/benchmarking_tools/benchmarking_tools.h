@@ -38,8 +38,6 @@
 
 #include <benchmarking_tools/macros.h>
 
-// #define PLACEHOLDER ROS_INFO_STREAM(ROSCONSOLE_NAME_PREFIX)
-
 #define RATE_DEBUG_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Debug, ws, std::string(ROSCONSOLE_NAME_PREFIX))
 #define RATE_INFO_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Info, ws, std::string(ROSCONSOLE_NAME_PREFIX))
 #define RATE_WARN_STREAM(name, ws) RATE_LOG(name, ::ros::console::Level::Warn, w, std::string(ROSCONSOLE_NAME_PREFIX))
