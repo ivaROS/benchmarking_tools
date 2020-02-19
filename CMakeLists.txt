@@ -109,7 +109,7 @@ catkin_package(
   CFG_EXTRAS benchmarking_tools-extras.cmake
 )
 
-include(~/catkin_ws/src/benchmarking_tools/cmake/benchmarking_tools-extras.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/benchmarking_tools-extras.cmake)
 
 ###########
 ## Build ##
