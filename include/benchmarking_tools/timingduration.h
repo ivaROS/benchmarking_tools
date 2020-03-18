@@ -9,6 +9,7 @@
 #include <chrono>
 #include <map>
 #include <list>
+#include <numeric>
 #include <std_msgs/Header.h>
 
 namespace benchmarking_tools
