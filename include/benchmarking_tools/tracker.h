@@ -15,12 +15,12 @@ namespace benchmarking_tools{
     {
     private:
         std::string _name;
-        std::string _name_prefix;
         size_t max_size = 50;
-        size_t num_samples = 0;
         ::ros::console::Level _level;
-        std::list<typename T:: S> _vals;
         float _period;
+        std::string _name_prefix;
+        size_t num_samples = 0;
+        std::list<typename T:: S> _vals;
     public:
         // NOTE: If this default constructor is required by compiler error,
         // it indicates that the tracker is not being inserted into the map.
