@@ -4,9 +4,8 @@
 #include <ros/ros.h>
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <boost/circular_buffer.hpp>
 #include <chrono>
-#include <map>
-#include <list>
 #include <std_msgs/Header.h>
 
 namespace benchmarking_tools
