@@ -4,6 +4,7 @@
 #include <ros/ros.h>
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <boost/circular_buffer.hpp>
 #include <chrono>
 #include <map>
 #include <list>
@@ -20,24 +21,22 @@ namespace benchmarking_tools{
         float _period;
         std::string _name_prefix;
         size_t num_samples = 0;
-        std::list<typename T:: S> _vals;
+        boost::circular_buffer<typename T:: S> _vals;
     public:
         // NOTE: If this default constructor is required by compiler error,
         // it indicates that the tracker is not being inserted into the map.
         // Tracker(){}
         
         Tracker(std::string name, size_t window_size, ::ros::console::Level level, float period, std::string name_prefix):
-        _name(name), max_size(window_size), _level(level), _period(period), _name_prefix(name_prefix) {}
+        _name(name), max_size(window_size), _level(level), _period(period), _name_prefix(name_prefix)
+        {
+            _vals.set_capacity(window_size);
+        }
 
         ~Tracker(){}
 
         void addValue(const typename T:: S val)
         {
-            if (_vals.size() >= max_size)
-            {
-                _vals.pop_front();
-            }
-
             _vals.push_back(val);
         }
 

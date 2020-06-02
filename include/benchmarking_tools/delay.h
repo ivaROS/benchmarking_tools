@@ -32,13 +32,13 @@ namespace benchmarking_tools
                 return delay;
             }
 
-            std::string getString(const std::list<S> &vals)
+            std::string getString(const boost::circular_buffer<S> &vals)
             {
                 if (vals.size() < 2)
-                    return "ave_delay 0";
+                    return "delay 0";
 
                 double ave_delay = (double) (std::accumulate(std::begin(vals), std::end(vals), ros::Duration(0))).toSec() / ((double)vals.size());
-                std::string return_str = "ave_delay " + std::to_string(ave_delay);
+                std::string return_str = "delay " + std::to_string(ave_delay);
                 return return_str;
             }
             

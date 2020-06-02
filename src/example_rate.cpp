@@ -13,11 +13,11 @@ int main(int argc, char ** argv)
     while (ros::ok()){
         // ROS_INFO_STREAM(ROS_PACKAGE_NAME);
         // PLACEHOLDER;
-        RATE_INFO_STREAM("rate_node", 50);
-        DELAY_INFO_STREAM("delay_log", 50, last_msgs);
+        RATE_INFO_STREAM("rate_node", 5);
+        DELAY_INFO_STREAM("delay_log", 5, last_msgs);
         last_msgs.stamp = ros::Time::now();
         {
-            DURATION_INFO_STREAM("duration", 50);
+            DURATION_INFO_STREAM("duration", 5);
             ros::Duration(0.005).sleep();
         }
         ros::spinOnce();

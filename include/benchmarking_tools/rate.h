@@ -30,14 +30,14 @@ namespace benchmarking_tools
                 return ros::Time::now();
             }
 
-            std::string getString(const std::list<S> &vals)
+            std::string getString(const boost::circular_buffer<S> &vals)
             {
                 if (vals.size() < 2)
-                    return "ave_callrate 0";
+                    return "callrate 0";
 
                 ros::Duration dt = vals.back() - vals.front();
                 double rate = ((double)vals.size() - 1) / dt.toSec();
-                std::string return_str = "ave_callrate " + std::to_string(rate);
+                std::string return_str = "callrate " + std::to_string(rate);
                 return return_str;
             }
             
