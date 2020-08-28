@@ -48,9 +48,6 @@
     dup_map_delay.find(name)->second.getStringThrottled(delay_obj);\
 
 
-#define DURATION_LOG(name, level, ws, name_prefix) /*Disabled!*/
-
-    /*
 #define DURATION_LOG(name, level, ws, name_prefix)\
     static std::map<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>> dup_map_duration;\
     if (dup_map_duration.find(name) == dup_map_duration.end()){\
@@ -58,7 +55,6 @@
         dup_map_duration.insert(std::pair<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>>(name, tracker));\
     }\
     benchmarking_tools::TimingDuration duration(&dup_map_duration.find(name)->second);\
-*/
 
 #define DURATION_LOG_THROTTLED(name, period, level, ws, name_prefix)\
     static std::map<std::string, benchmarking_tools::Tracker<benchmarking_tools::TimingDuration>> dup_map_duration;\

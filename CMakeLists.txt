@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES benchmarking_lib
+  LIBRARIES #benchmarking_lib
   CATKIN_DEPENDS roscpp rospy std_msgs
   CFG_EXTRAS benchmarking_tools-extras.cmake
 )
@@ -122,18 +122,18 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(benchmarking_lib src/example_rate.cpp)
-add_dependencies(benchmarking_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_compile_options(benchmarking_lib PUBLIC -std=c++11)
-target_link_libraries(benchmarking_lib 
-  ${catkin_LIBRARIES}
-)
+# add_library(benchmarking_lib src/library.cpp)
+# add_dependencies(benchmarking_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_compile_options(benchmarking_lib PUBLIC -std=c++11)
+# target_link_libraries(benchmarking_lib 
+#   ${catkin_LIBRARIES}
+# )
 
 add_executable(example_node src/example_timing.cpp)
 add_dependencies(example_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_compile_options(example_node PUBLIC -std=c++11)
 target_link_libraries(example_node
-  benchmarking_lib
+  #benchmarking_lib
   ${catkin_LIBRARIES}
 )
 
@@ -142,7 +142,15 @@ add_executable(rate_node src/example_rate.cpp)
 add_dependencies(rate_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_compile_options(rate_node PUBLIC -std=c++11)
 target_link_libraries(rate_node
-  benchmarking_lib
+  #benchmarking_lib
+  ${catkin_LIBRARIES}
+)
+
+add_executable(thread_safey_node src/testing/thread_safety.cpp)
+add_dependencies(thread_safey_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_compile_options(thread_safey_node PUBLIC -std=c++11)
+target_link_libraries(thread_safey_node
+  #benchmarking_lib
   ${catkin_LIBRARIES}
 )
 
