@@ -31,7 +31,7 @@ void worker(int size)
   while (ros::ok())
   {
     int rv = timedwork(size);
-    ROS_INFO_STREAM("Did work! " << rv);
+    ROS_INFO_STREAM("Did work! " << rv << " [" << size << "]");
     ros::Duration(0.005).sleep();
     ros::spinOnce();
   } 
@@ -45,14 +45,26 @@ int main(int argc, char ** argv)
     std_msgs::Header last_msgs;
     last_msgs.stamp = ros::Time::now();
     
-    int size = 20;
+    std::vector<unsigned int> sizes({14,16,18,20,22,24});
+    for(int i = 0; i < 10; i++)
+    {
+      //sizes.push_back(10);
+    }
+        
+    auto threads = std::vector<std::thread>();
     
-    std::thread threadObj([size]{
-      worker(size);
-    });
+    for(auto size : sizes)
+    {    
+      threads.emplace_back([size]{
+        worker(size);
+      });
+    }
     
-    //worker(size);
+    for(auto& threadObj : threads)
+    {
+      threadObj.join();
+    }
+    ROS_INFO_STREAM("Threads joined!");
     
-    threadObj.join();
     return 0;
 }
