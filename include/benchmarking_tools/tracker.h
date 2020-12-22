@@ -6,6 +6,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/circular_buffer.hpp>
 #include <std_msgs/Header.h>
+#include <boost/thread/mutex.hpp>
+
 
 namespace benchmarking_tools{
     template <typename T>
@@ -19,6 +21,9 @@ namespace benchmarking_tools{
         std::string _name_prefix;
         size_t num_samples = 0;
         boost::circular_buffer<typename T:: S> _vals;
+    public:
+        boost::mutex _mutex;
+        
     public:
         // NOTE: If this default constructor is required by compiler error,
         // it indicates that the tracker is not being inserted into the map.

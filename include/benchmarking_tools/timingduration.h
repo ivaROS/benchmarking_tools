@@ -9,6 +9,7 @@
 #include <boost/circular_buffer.hpp>
 #include <numeric>
 #include <std_msgs/Header.h>
+#include <boost/thread/mutex.hpp>
 
 namespace benchmarking_tools
 {
@@ -37,6 +38,9 @@ namespace benchmarking_tools
             ~TimingDuration()
             {
                 this->elapsed_time = (ros::WallTime::now() - this->start_time).toNSec() / 1e3;
+                
+                boost::mutex::scoped_lock lock(_parentobj->_mutex);
+                
                 _parentobj->addValue(this->addValue());
 
                 if (!_throttled){

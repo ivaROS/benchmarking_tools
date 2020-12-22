@@ -146,13 +146,13 @@ target_link_libraries(rate_node
   ${catkin_LIBRARIES}
 )
 
-add_executable(thread_safey_node src/testing/thread_safety.cpp)
-add_dependencies(thread_safey_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_compile_options(thread_safey_node PUBLIC -std=c++11)
-target_link_libraries(thread_safey_node
-  #benchmarking_lib
-  ${catkin_LIBRARIES}
-)
+# add_executable(thread_safety_node src/testing/thread_safety.cpp)
+# add_dependencies(thread_safety_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_compile_options(thread_safety_node PUBLIC -std=c++11)
+# target_link_libraries(thread_safety_node
+#   #benchmarking_lib
+#   ${catkin_LIBRARIES}
+# )
 
 
 ## Declare a C++ library
