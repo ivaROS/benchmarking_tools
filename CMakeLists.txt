@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(benchmarking_tools)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-Wall)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -131,7 +130,7 @@ include_directories(
 
 add_executable(example_node src/example_timing.cpp)
 add_dependencies(example_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_compile_options(example_node PUBLIC -std=c++11)
+target_compile_features(example_node PUBLIC cxx_std_11)
 target_link_libraries(example_node
   #benchmarking_lib
   ${catkin_LIBRARIES}
@@ -140,7 +139,7 @@ target_link_libraries(example_node
 
 add_executable(rate_node src/example_rate.cpp)
 add_dependencies(rate_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_compile_options(rate_node PUBLIC -std=c++11)
+target_compile_features(rate_node PUBLIC cxx_std_11)
 target_link_libraries(rate_node
   #benchmarking_lib
   ${catkin_LIBRARIES}
